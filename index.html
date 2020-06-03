@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <style>
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button-wrapper {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="button-wrapper">
+        <button onclick="click">Включить</button>
+    </div>
+    <div id="picker"></div>
+<div></div>
+</div>
+
+<script>
+    var socket = io();
+
+    var state = false;
+    function click() {
+        state = !state;
+    }
+
+    var picker = new iro.ColorPicker('#picker');
+    picker.on('color:change', function (color) {
+        socket.emit('update', color.rgba);
+    });
+</script>
+</body>
+</html>
